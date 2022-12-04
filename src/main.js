@@ -1,11 +1,42 @@
-import ytHandler from './sites/youtube'
+import YTHandler from './sites/youtube'
+const { io } = require("socket.io-client");
+const socket = io('ws://localhost:3000');
 
-const GridHandler = ytHandler.GridHandler;
-console.log('grid handler')
-console.log(GridHandler);
+console.log(socket);
+
+socket.on("control", (message) => {
+    console.log(message)
+    switch (message.movement) {
+        case 'up':
+            ytHandler.GridHandler.moveUp();
+            break;
+        case 'down': 
+            ytHandler.GridHandler.moveDown();
+            break;
+        case 'left': 
+            ytHandler.GridHandler.moveDown();
+            break;
+        case 'right': 
+            ytHandler.GridHandler.moveRight();
+            break;
+        case 'click': 
+            ytHandler.GridHandler.moveDown();
+            break;
+        default: 
+            socket.emit("control-response", {
+                type: "error",
+                error: "unknown control " + message.movement
+            })
+    } 
+})
+
+const ytHandler = new YTHandler();
+
 await ytHandler.loadButtons();
-console.log('new gridhandler')
-console.log(GridHandler)
+
+// app.get('/', (req, res) => {
+//     res.send('hello world')
+// })
 
 function loadSitePage() {
     // call site page    
@@ -14,23 +45,3 @@ function loadSitePage() {
 function loadAPI () {
 
 }
-
-// function resolveAfter2Seconds(x) {
-// return new Promise((resolve) => {
-//     setTimeout(() => {
-//     resolve(x);
-//     }, 2000);
-// });
-// }
-  
-// async function f1() {
-// const x = await resolveAfter2Seconds(10);
-// console.log(x); // 10
-// }
-
-// f1();
-// console.log('after')
-
-// interval for api calls
-    // handling api call
-    // call the objects click / hover, if fail, object refreshes 

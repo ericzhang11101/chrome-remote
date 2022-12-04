@@ -1,0 +1,23 @@
+.remote-main {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: red;
+}
+
+.remote-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+    justify-content: space-evenly;
+}
+
+button {
+    width: 200px;
+    height: 150px;
+    font-size: 20px;
+}
