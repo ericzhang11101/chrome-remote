@@ -7,7 +7,7 @@ export default class ButtonGrid {
     bottom: ButtonGrid;
     grid: any[][];
     type: GridEnum;
-    neighbours: ButtonGrid[];
+    neighbours: ButtonGrid[] | undefined;
 
     // buttons: Button
 
@@ -27,6 +27,7 @@ export default class ButtonGrid {
         console.log(x + " " + y)
         if (this.type === GridEnum.Grid){
             console.log('a')
+            console.log(this.grid[y][x]);
             return this.grid[y][x];
         }
         else if (this.type === GridEnum.Col){
@@ -38,6 +39,7 @@ export default class ButtonGrid {
             return this.grid[x];
         }
     } 
+
    setLeft = (newLeft: any): void => {
     this.left = newLeft;
    }

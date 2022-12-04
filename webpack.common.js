@@ -16,6 +16,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    alias: {
+      jquery: "jquery/src/jquery"
+    }
   },
   module: {
     rules: [
@@ -27,7 +30,18 @@ module.exports = {
       {
         test: /\.css$/,
         use: 'css-loader'
+      },
+      {
+        // Exposes jQuery for use outside Webpack build
+        test: require.resolve('jquery'),
+        use: [{
+          loader: 'expose-loader',
+          options: 'jQuery'
+        },{
+          loader: 'expose-loader',
+          options: '$'
+        }]
       }
     ]
-  },
+  }
 };
