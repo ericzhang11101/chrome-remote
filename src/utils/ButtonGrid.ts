@@ -1,24 +1,23 @@
 import { GridEnum } from "./Enums";
 
 export default class ButtonGrid {
-    left: ButtonGrid;
-    right: ButtonGrid;
-    top: ButtonGrid;
-    bottom: ButtonGrid;
     grid: any[][];
     type: GridEnum;
-    neighbours: ButtonGrid[] | undefined;
+    generatorFunction: () => any;
 
     // buttons: Button
 
     constructor(
-        buttonArray: any[][] | any[],
+        generatorFunction: () => any,
+        // buttonArray: any[][] | any[],
         type: GridEnum,
-        neighbours?: ButtonGrid[]
     ) {
-        this.grid = buttonArray
+        this.generatorFunction = generatorFunction
         this.type = type
-        this.neighbours = neighbours
+    }
+
+    initialize = async () => {
+        this.grid = await this.generatorFunction();
     }
 
     get = (x: number, y:number) => {
@@ -40,17 +39,7 @@ export default class ButtonGrid {
         }
     } 
 
-   setLeft = (newLeft: any): void => {
-    this.left = newLeft;
-   }
-   setRight = (newRight: any) => {
-    this.right = newRight;
-   }
-   setTop = (setTop: any) => {
-    this.top = setTop;
-   }
-   setBottom = (newBottom: any) => {
-    this.bottom = newBottom;
-   }
-   
+    refresh = () => {
+
+    }
 }

@@ -14,13 +14,13 @@ socket.on("control", (message) => {
             ytHandler.GridHandler.moveDown();
             break;
         case 'left': 
-            ytHandler.GridHandler.moveDown();
+            ytHandler.GridHandler.moveLeft();
             break;
         case 'right': 
             ytHandler.GridHandler.moveRight();
             break;
         case 'click': 
-            ytHandler.GridHandler.moveDown();
+            ytHandler.GridHandler.click();
             break;
         default: 
             socket.emit("control-response", {
@@ -33,15 +33,3 @@ socket.on("control", (message) => {
 const ytHandler = new YTHandler();
 
 await ytHandler.loadButtons();
-
-// app.get('/', (req, res) => {
-//     res.send('hello world')
-// })
-
-function loadSitePage() {
-    // call site page    
-}
-
-function loadAPI () {
-
-}

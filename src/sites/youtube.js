@@ -43,7 +43,7 @@ export default class YTHandler{
     
             // interval for loading (put in separate object later), some state value for loading 
             const mainButtonInterval = setInterval(() => {
-                buttonRows = document.querySelectorAll('ytd-rich-grid-row')
+                buttonRows = document.querySelectorAll('ytd-rich-grid-row, ytd-rich-section-renderer')
     
                 if (!buttonRows){
                     console.log('waiting for mainButtons');
@@ -51,10 +51,10 @@ export default class YTHandler{
                     console.log('mainButtons found')
                     buttonRows.forEach((row) => {
                         const temp = row.querySelectorAll('ytd-rich-item-renderer');
-                        console.log(typeof temp)
                         const temp2 = [...temp]
                             .filter((element) => {
-                                return checkVisible(element)
+                                return element.querySelectorAll('ytd-ad-slot-renderer').length == 0
+                                // return checkVisible(element)
                             })
                             .map((selector) => {
                                 return new Button(selector);
@@ -71,12 +71,16 @@ export default class YTHandler{
         })
     }
 
+    buttonsOnPage = [this.loadSidebarButtons, this.loadMainButtons]
+
     loadButtons = async () => {
-        const sidebar = await this.loadSidebarButtons()
-        const main = await this.loadMainButtons()
-        const sidebarGrid = new ButtonGrid(sidebar, GridEnum.Col);
-        const mainGrid = new ButtonGrid(main, GridEnum.Grid);
-    
+        // const sidebar = await this.loadSidebarButtons()
+        // const main = await this.loadMainButtons()
+        const sidebarGrid = new ButtonGrid(this.loadSidebarButtons, GridEnum.Col);
+        await sidebarGrid.initialize()
+        const mainGrid = new ButtonGrid(this.loadMainButtons, GridEnum.Grid);
+        await mainGrid.initialize()
+
         this.GridHandler = new GridContainer(
             [
                 [sidebarGrid, mainGrid]
