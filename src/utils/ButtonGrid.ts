@@ -4,6 +4,7 @@ export default class ButtonGrid {
     grid: any[][];
     type: GridEnum;
     generatorFunction: () => any;
+    scrollOffset: number;
 
     // buttons: Button
 
@@ -11,9 +12,13 @@ export default class ButtonGrid {
         generatorFunction: () => any,
         // buttonArray: any[][] | any[],
         type: GridEnum,
+        scrollOffset?: number
     ) {
         this.generatorFunction = generatorFunction
         this.type = type
+        if (scrollOffset){
+            this.scrollOffset = scrollOffset
+        }
     }
 
     initialize = async () => {

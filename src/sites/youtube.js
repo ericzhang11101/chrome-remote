@@ -76,9 +76,9 @@ export default class YTHandler{
     loadButtons = async () => {
         // const sidebar = await this.loadSidebarButtons()
         // const main = await this.loadMainButtons()
-        const sidebarGrid = new ButtonGrid(this.loadSidebarButtons, GridEnum.Col);
+        const sidebarGrid = new ButtonGrid(this.loadSidebarButtons, GridEnum.Col, 0);
         await sidebarGrid.initialize()
-        const mainGrid = new ButtonGrid(this.loadMainButtons, GridEnum.Grid);
+        const mainGrid = new ButtonGrid(this.loadMainButtons, GridEnum.Grid, 150);
         await mainGrid.initialize()
 
         this.GridHandler = new GridContainer(

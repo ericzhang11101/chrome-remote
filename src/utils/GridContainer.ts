@@ -30,9 +30,9 @@ export default class GridContainer {
 
     hover(){
         const {x, y, gridX, gridY, grids} = this
-        const currElement = grids[gridY][gridX].get(x,y)
+        const currGrid = grids[gridY][gridX]
+        const currElement = currGrid.get(x,y)
 
-        currElement.visibleElement.scrollIntoView({behavior: 'smooth'})
         // currElement.visibleElement.scrollBy(0, -220)
         console.log('scroll')
         console.log(this.gridX + " " + this.gridY)
@@ -47,6 +47,20 @@ export default class GridContainer {
         //     })
         //    }, 1)
         // }
+
+        // const yOffset = -210; 
+        const yOffset = currGrid.scrollOffset;
+
+        if (yOffset){
+            // scroll with offset
+            const scrollY = currElement.visibleElement.getBoundingClientRect().top + window.pageYOffset - yOffset;
+            window.scrollTo({top: scrollY, behavior: 'smooth'});
+        }
+        else {
+            // use for sidebar
+            currElement.visibleElement.scrollIntoView({behavior: 'smooth'})
+        }
+
         currElement.visibleElement.classList.add("hover-style");
     }
 
