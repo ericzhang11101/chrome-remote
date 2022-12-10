@@ -11,7 +11,7 @@ export default class YTHandler{
     constructor(){
     }
 
-    loadSidebarButtons = async () => {
+    getSidebarButtons = async () => {
         return new Promise((res) => {
             let sidebar, temp;
     
@@ -32,11 +32,11 @@ export default class YTHandler{
                         .map((button) => new Button(button));
                     res(temp)
                 }
-            }, 1000)
+            }, 500)
         })
     }
     
-    loadMainButtons = async () => {
+    getMainVideos = async () => {
         return new Promise((res) => {
             let mainButtons = [];
             let buttonRows;
@@ -67,18 +67,39 @@ export default class YTHandler{
                     clearInterval(mainButtonInterval);
                     res(mainButtons);
                 }
-            }, 1000)
+            }, 500)
         })
     }
 
-    buttonsOnPage = [this.loadSidebarButtons, this.loadMainButtons]
+    getSidebarVideos = async () => {
+        return new Promise((res) => {
+            let sidebar, temp;
+    
+            // interval for loading (put in separate object later), some state value for loading 
+            const sidebarInterval = setInterval(() => {
+                sidebar = document.querySelectorAll('#contents ytd-compact-video-renderer')
+    
+                if (!sidebar){
+                    console.log('waiting for sidebar');
+                } else {
+                    // delete loading interval
+                    console.log('sidebar found ' + sidebar.length)
+                    clearInterval(sidebarInterval);
+                    temp = [...sidebar]
+                        .filter((element) => {
+                            return checkVisible(element)
+                        })
+                        .map((button) => new Button(button));
+                    res(temp)
+                }
+            }, 500)
+        })
+    }
 
-    loadButtons = async () => {
-        // const sidebar = await this.loadSidebarButtons()
-        // const main = await this.loadMainButtons()
-        const sidebarGrid = new ButtonGrid(this.loadSidebarButtons, GridEnum.Col, 0);
+    loadButtons1 = async () => {
+        const sidebarGrid = new ButtonGrid(this.getSidebarButtons, GridEnum.Col, 0);
         await sidebarGrid.initialize()
-        const mainGrid = new ButtonGrid(this.loadMainButtons, GridEnum.Grid, 150);
+        const mainGrid = new ButtonGrid(this.getMainVideos, GridEnum.Grid, 150);
         await mainGrid.initialize()
 
         this.GridHandler = new GridContainer(
@@ -86,9 +107,26 @@ export default class YTHandler{
                 [sidebarGrid, mainGrid]
             ]
         )
-
-        // [Y][X]
-    
     }
-    
+
+    loadButtons2 = async () => {
+        console.log("BUTTON")
+        console.log("BUTTON")
+        console.log("BUTTON")
+        console.log("BUTTON")
+        console.log("BUTTON")
+
+        const sidebarGrid = new ButtonGrid(this.getSidebarVideos, GridEnum.Col, 70);
+        await sidebarGrid.initialize()
+
+        this.GridHandler = new GridContainer(
+            [
+                [sidebarGrid]
+            ]
+        )
+    }
+
+    playNextVideo = () => {
+        document.querySelector('.ytp-next-button').click();
+    }
 }

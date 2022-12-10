@@ -1,4 +1,6 @@
 import $ from 'jquery'
+// import chrome from "chrome-api";
+
 
 export function checkVisible( elm ) {
     return true
@@ -48,4 +50,35 @@ export function focusElement(el){
     console.log(path)
       document.querySelector(path).scrollIntoView({behavior: 'smooth'});
   }
+}
+
+export function toggleVideo(){
+  const video = document.querySelector('video');
+
+  if (!video.paused){
+    video.pause()
+    return "paused"
+  }
+  else if (!video.ended){
+    video.play();
+    return "playing"
+  }
+}
+
+export function pressKey(key) {
+  const keyCode = key.toUpperCase().charCodeAt(0);
+  console.log('keycode: ' + keyCode)
+  const event = new KeyboardEvent('keydown',{'keyCode':keyCode})
+  document.dispatchEvent(event)
+}
+
+export function toggleFullscreen(){
+  const video = document.querySelector('video');
+
+  const isFullscreen = video.fullscreenElement;
+  console.log('is fullscreen?')
+  console.log(isFullscreen)
+  console.log('chromechromechrome')
+  console.log(chrome)
+  video.requestFullscreen();
 }

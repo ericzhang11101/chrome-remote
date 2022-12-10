@@ -32,23 +32,7 @@ export default class GridContainer {
         const {x, y, gridX, gridY, grids} = this
         const currGrid = grids[gridY][gridX]
         const currElement = currGrid.get(x,y)
-
-        // currElement.visibleElement.scrollBy(0, -220)
-        console.log('scroll')
-        console.log(this.gridX + " " + this.gridY)
-
-        // if (this.gridX !== 0 || this.gridY !== 0){
-        //     console.log('reeeee scroll')
-        //    setTimeout(() => {
-        //     console.log('scroll')
-        //     window.scrollBy({
-        //         top: -220,
-        //         behavior: 'smooth'
-        //     })
-        //    }, 1)
-        // }
-
-        // const yOffset = -210; 
+        
         const yOffset = currGrid.scrollOffset;
 
         if (yOffset){
