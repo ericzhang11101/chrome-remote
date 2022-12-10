@@ -2,12 +2,11 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    background: './src/background.js',
+    background: './src/deep-thoughts.js',
     content: './src/main.js',
   },
   output: {
     filename: '[name].js',
-    // path: path.resolve(__dirname, '../build')
     path: __dirname + '/build/bundle'
   },
   mode: 'production',
@@ -43,5 +42,6 @@ module.exports = {
         }]
       }
     ]
-  }
+  },
+  devtool: 'inline-source-map'
 };

@@ -4,39 +4,35 @@ socket.on("message", (message) => {
     console.log(message)
 })
 
-function moveUp(){
+socket.on("load-status", (message) => {
+    if (message.isLoaded){
+        disableButtons()
+    }
+    else{
+        enableButtons()
+    }
+})
+
+function emit(message){
+    console.log('emit')
     socket.emit('control', {
         type: 'control',
-        movement: 'up'
+        control: message
     })
 }
 
-function moveDown(){
-    socket.emit('control', {
-        type: 'control',
-        movement: 'down'
+function disableButtons(){
+    console.log('unloading')
+    document.querySelectorAll('button').forEach((button) => {
+        console.log('button')
+        button.disabled = true;
     })
 }
 
-function moveLeft(){
-    socket.emit('control', {
-        type: 'control',
-        movement: 'left'
+function enableButtons(){
+    document.querySelectorAll('button').forEach((button) => {
+        button.disabled = false;
     })
 }
 
-function moveRight(){
-    console.log('right')
-    socket.emit('control', {
-        type: 'control',
-        movement: 'right'
-    })
-}
-
-function moveClick(){
-    console.log('click')
-    socket.emit('control', {
-        type: 'control',
-        movement: 'click'
-    })
-}
+// unloadButtons()
