@@ -3,8 +3,8 @@ export default class Button {
     visibleElement: any;
 
     constructor(selector: any) {
-        console.log(typeof selector)
-        this.button = selector.querySelector('a');
+        const button = selector.querySelector('a');
+        this.button = button ?? selector;
         this.visibleElement = selector;
     }
 }

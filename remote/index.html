@@ -16,6 +16,9 @@
             <button onClick="emit('pageForward')">> Page</button>
         </div> -->
         <div class="remote-row">
+            <button onClick="emit('scrollToTop')"}>top</button>
+        </div>
+        <div class="remote-row">
             <button onClick="emit('skipBackward')"><<</button>
             <button onClick="emit('up')"}>up</button>
             <button onClick="emit('skipForward')">>></button>
@@ -31,7 +34,9 @@
             <button onClick="emit('toggleFullscreen')">toggle fullscreen</button>
         </div>
         <div class="remote-row">
+            <button onClick="emit('toggleSidebar')">show sidebar</button>
             <button onClick="emit('togglePlay')">play/pause</button>
+            <button onClick="emit('togglePlay')">placeholder</button>
         </div>
     </div>
 </body>

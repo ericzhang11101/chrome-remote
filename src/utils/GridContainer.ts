@@ -1,3 +1,4 @@
+import Button from "./Button";
 import ButtonGrid from "./ButtonGrid";
 import { GridEnum } from "./Enums";
 
@@ -17,7 +18,7 @@ export default class GridContainer {
         this.x = 0
         this.gridX = 0
         this.gridY = 0
-        
+
     }
 
     _unhover(){
@@ -50,14 +51,30 @@ export default class GridContainer {
     }
 
     click(){
-        const {x, y, gridX, gridY, grids} = this
+        const {x, y, gridX, gridY, grids, active} = this
+        if (!active) return;
+
         const currElement = grids[gridY][gridX].get(x,y)
         currElement.button.click();
+        console.log('grids')
+        console.log(grids)
+        if (grids[gridY][gridX].resetOnClick){
+            this.resetGrid();
+        }
     }
 
     handleFirstMovement = () => {
         this.hover();
         this.active = true;
+    }
+    
+    resetGrid = () => {
+        this._unhover();
+        this.x = 0;
+        this.y = 0;
+        this.gridX = 0;
+        this.gridY = 0;
+        this.active = false
     }
 
     moveDown = () => {

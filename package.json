@@ -18,11 +18,32 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.5.14",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
     "chrome-api": "^1.0.0",
     "css-loader": "^6.7.2",
+    "eslint": "^8.30.0",
     "expose-loader": "^4.0.0",
     "ts-loader": "^9.4.1",
     "typescript": "^4.9.3",
     "webpack-cli": "^5.0.0"
-  }
+  },
+  "name": "client",
+  "description": "#### Edit files in /src, run `webpack --config .\\webpack.common.js`, when ready",
+  "version": "1.0.0",
+  "main": "webpack.common.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericzhang11101/chrome-remote.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericzhang11101/chrome-remote/issues"
+  },
+  "homepage": "https://github.com/ericzhang11101/chrome-remote#readme"
 }

@@ -79,6 +79,9 @@ export function toggleFullscreen(){
   console.log('is fullscreen?')
   console.log(isFullscreen)
   console.log('chromechromechrome')
-  console.log(chrome)
   video.requestFullscreen();
+}
+
+export function scrollToTop(){
+  document.body.scrollTop = document.documentElement.scrollTop = 0;
 }
