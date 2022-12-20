@@ -7,7 +7,6 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    // path: path.resolve(__dirname, '../build')
     path: __dirname + '/build/bundle'
   },
   mode: 'production',
@@ -43,5 +42,6 @@ module.exports = {
         }]
       }
     ]
-  }
+  },
+  devtool: 'inline-source-map'
 };

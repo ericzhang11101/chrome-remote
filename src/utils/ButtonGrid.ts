@@ -5,6 +5,7 @@ export default class ButtonGrid {
     type: GridEnum;
     generatorFunction: () => any;
     scrollOffset: number;
+    resetOnClick: boolean;
 
     // buttons: Button
 
@@ -12,13 +13,15 @@ export default class ButtonGrid {
         generatorFunction: () => any,
         // buttonArray: any[][] | any[],
         type: GridEnum,
-        scrollOffset?: number
+        scrollOffset?: number,
+        resetOnClick?: boolean
     ) {
         this.generatorFunction = generatorFunction
         this.type = type
         if (scrollOffset){
             this.scrollOffset = scrollOffset
         }
+        this.resetOnClick = resetOnClick
     }
 
     initialize = async () => {
@@ -26,25 +29,14 @@ export default class ButtonGrid {
     }
 
     get = (x: number, y:number) => {
-        console.log('getting')
-        console.log(this.grid)
-        console.log(x + " " + y)
         if (this.type === GridEnum.Grid){
-            console.log('a')
-            console.log(this.grid[y][x]);
             return this.grid[y][x];
         }
         else if (this.type === GridEnum.Col){
-            console.log('b')
             return this.grid[y];
         }
         else {
-            console.log('c')
             return this.grid[x];
         }
     } 
-
-    refresh = () => {
-
-    }
 }

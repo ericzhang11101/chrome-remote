@@ -1,3 +1,4 @@
+import Button from "./Button";
 import ButtonGrid from "./ButtonGrid";
 import { GridEnum } from "./Enums";
 
@@ -7,6 +8,7 @@ export default class GridContainer {
     gridX: number; // keeps track of grids
     gridY: number;
     grids: ButtonGrid[][];
+    active: boolean; // if button has been pressed
 
     constructor(
         gridInput: ButtonGrid[][]
@@ -16,7 +18,7 @@ export default class GridContainer {
         this.x = 0
         this.gridX = 0
         this.gridY = 0
-        
+
     }
 
     _unhover(){
@@ -49,12 +51,38 @@ export default class GridContainer {
     }
 
     click(){
-        const {x, y, gridX, gridY, grids} = this
+        const {x, y, gridX, gridY, grids, active} = this
+        if (!active) return;
+
         const currElement = grids[gridY][gridX].get(x,y)
         currElement.button.click();
+        console.log('grids')
+        console.log(grids)
+        if (grids[gridY][gridX].resetOnClick){
+            this.resetGrid();
+        }
+    }
+
+    handleFirstMovement = () => {
+        this.hover();
+        this.active = true;
+    }
+    
+    resetGrid = () => {
+        this._unhover();
+        this.x = 0;
+        this.y = 0;
+        this.gridX = 0;
+        this.gridY = 0;
+        this.active = false
     }
 
     moveDown = () => {
+        if (!this.active) {
+            this.handleFirstMovement();
+            return
+        }
+
         const {x, y, gridX, gridY, grids} = this
 
         this._unhover()
@@ -67,6 +95,13 @@ export default class GridContainer {
             // normal
             console.log('normal')
             this.y = y + 1;
+
+            // check col is in range of next level
+            if (x >= currGrid.grid[this.y].length){
+                // move to last one if out of range
+                this.x = currGrid.grid[this.y].length - 1;
+            }
+
         } else {
             console.log('else')
             // move down
@@ -86,6 +121,11 @@ export default class GridContainer {
     }
 
     moveUp = () => {
+        if (!this.active) {
+            this.handleFirstMovement();
+            return
+        }
+
         const {x, y, gridX, gridY, grids} = this
         this._unhover()
 
@@ -93,6 +133,12 @@ export default class GridContainer {
         if (y > 0 ){
             // normal
             this.y = y - 1;
+
+            // check col is in range of next level
+            if (x >= currGrid.grid[this.y].length){
+                // move to last one if out of range
+                this.x = currGrid.grid[this.y].length - 1;
+            }
         } else {
             // move down
             if (gridY == 0){
@@ -110,18 +156,27 @@ export default class GridContainer {
     }
 
     moveRight = () => {
+        if (!this.active) {
+            this.handleFirstMovement();
+            return
+        }
+
         const {x, y, gridX, gridY, grids} = this
         this._unhover()
 
         const currGrid = grids[gridY][gridX];
-        console.log('currGrid')
-        console.log(currGrid);
         if (
             (currGrid.type === GridEnum.Row && x + 1 < currGrid.grid.length) ||
             (currGrid.type === GridEnum.Grid && x + 1 < currGrid.grid[y].length)
         ){
             // normal
             this.x = x + 1;
+
+            // check col is in range of next level
+            if (y >= currGrid.grid.length){
+                // move to last one if out of range
+                this.y = currGrid.grid.length - 1;
+            }
         } else {
             // move grid right
             if (gridX + 1 < grids[gridY].length){
@@ -139,6 +194,11 @@ export default class GridContainer {
     }
 
     moveLeft = () => {
+        if (!this.active) {
+            this.handleFirstMovement();
+            return
+        }
+
         const {x, y, gridX, gridY, grids} = this
         this._unhover()
 
@@ -149,6 +209,12 @@ export default class GridContainer {
             // normal
             console.log('normal')
             this.x = x - 1;
+
+            // check col is in range of next level
+            if (y >= currGrid.grid.length){
+                // move to last one if out of range
+                this.y = currGrid.grid.length - 1;
+            } 
         } else {
             console.log('else')
             // move grid right
