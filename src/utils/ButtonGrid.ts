@@ -18,6 +18,7 @@ export default class ButtonGrid {
     ) {
         this.generatorFunction = generatorFunction
         this.type = type
+<<<<<<< Updated upstream
         if (scrollOffset){
             this.scrollOffset = scrollOffset
         }
@@ -26,6 +27,8 @@ export default class ButtonGrid {
 
     initialize = async () => {
         this.grid = await this.generatorFunction();
+=======
+>>>>>>> Stashed changes
     }
 
     get = (x: number, y:number) => {

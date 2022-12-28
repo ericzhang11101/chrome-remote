@@ -3,10 +3,12 @@
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
+    "create-react-app": "^5.0.1",
     "crypto-browserify": "^3.12.0",
     "fs": "^0.0.1-security",
     "jquery": "^3.6.1",
     "path-browserify": "^1.0.1",
+    "react": "^18.2.0",
     "scroll-js": "^3.5.2",
     "socket.io": "^4.5.4",
     "socket.io-client": "^4.5.4",
@@ -18,8 +20,11 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.5.14",
+<<<<<<< Updated upstream
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
+=======
+>>>>>>> Stashed changes
     "chrome-api": "^1.0.0",
     "css-loader": "^6.7.2",
     "eslint": "^8.30.0",

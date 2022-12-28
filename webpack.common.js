@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    background: './src/background.js',
+    background: './src/deep-thoughts.js',
     content: './src/main.js',
   },
   output: {
