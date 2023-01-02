@@ -4,7 +4,7 @@
   "description": "Base Level Extension",
   "version": "1.0",
   "action": {
-    "default_popup": "/build/index.html",
+    "default_popup": "index.html",
     "default_icon": "images/icon.png"
   },
   "content_scripts": [
@@ -28,6 +28,6 @@
   },
   "permissions": ["input", "tabs", "cookies"],
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline'"
+    "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline' https://music.yandex.ru/;"
   }
 }
