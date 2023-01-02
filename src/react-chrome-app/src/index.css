@@ -1,0 +1,22 @@
+html { 
+    height: 400px;
+    width: 300px;
+}
+
+body {
+    height: 400px;
+    width: 300px;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    flex-direction: column;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+}
+
+.qr-container{
+    width: 250px;
+    height: 250px;
+    border: 2px solid black;
+}
