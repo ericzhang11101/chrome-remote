@@ -6,5 +6,5 @@
 
 ### popup
 
-#### Edit files in /src/popup, run `yarn build` and copy contents build folder into /build
+#### Edit files in /src/react-chrome-app, run `yarn build` and copy contents popup-build folder into /build
 #### Theres some stupid dependancy issues stopping BUILD_PATH from being used and some issue with files not being in the same folder as manifest.json
