@@ -23,15 +23,6 @@ export default function Signup({setDeviceName, setDeviceKey}: any) {
 
     return (
         <div className="qr-container">
-            {/* <form onSubmit={handleSubmit}>
-                <h3>Device Name</h3>
-                <input type={'text'} value={deviceNameText} onChange={handleTextChange}>
-                </input>
-                
-                <button type='submit'>
-                    Add Device
-                </button>
-            </form> */}
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formDeviceName">
                     <Form.Control 

@@ -13,10 +13,23 @@ body {
     flex-direction: column;
     text-align: center;
     font-family: 'Lato', sans-serif;
+    justify-content: center;
 }
 
 .qr-container{
     width: 250px;
     height: 250px;
-    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    flex-direction: column;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    justify-content: center;
 }
