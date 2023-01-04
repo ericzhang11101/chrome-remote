@@ -10,5 +10,6 @@
     },
     "exclude": [
         "./src/popup/",
+        "./src/react-chrome-app"
     ]
   }

@@ -1,18 +1,13 @@
-const path = require('path');
-
 module.exports = {
   entry: {
-    background: './src/extension/background.js',
-    content: './src/extension/main.js'
+    background: './background.js',
+    content: './main.js'
   },
   output: {
     filename: '[name].js',
     path: __dirname + '/build/bundle'
   },
   mode: 'production',
-  experiments: {
-    topLevelAwait: true
-  },
   resolve: {
     extensions: ['.ts', '.js'],
     alias: {
@@ -23,7 +18,10 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader'
+        use: 'ts-loader',
+        include: [
+           /extension/
+        ]
       },
       {
         test: /\.css$/,
