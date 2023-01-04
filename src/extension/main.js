@@ -38,8 +38,6 @@ async function handleSubpage(){
         default: 
             console.log('default')
             await ytHandler.loadButtons1();
-
-
     }
 }
 
@@ -125,7 +123,11 @@ console.log(chrome)
 console.log(chrome.runtime)
 
 
-// chrome.runtime.onMessage((message) => {
-//     console.log('message from background');
-//     console.log(message);
-// })
+chrome.runtime.onMessage((message) => {
+    console.log('message from background');
+    console.log(message);
+    if (message?.type === 'deviceKey'){
+        console.log('update key!!')
+        console.log(message.value)
+    }
+})

@@ -2,8 +2,8 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    background: './src/background.js',
-    content: './src/main.js'
+    background: './src/extension/background.js',
+    content: './src/extension/main.js'
   },
   output: {
     filename: '[name].js',
@@ -24,7 +24,11 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
-        exclude: /node_modules/,
+        exclude: {
+          not: [
+            /extension/
+          ]
+        }
       },
       {
         test: /\.css$/,

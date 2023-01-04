@@ -8,7 +8,7 @@ function App() {
   const [shouldShowQrCode, setShouldShowQrCode] = useState<boolean>(false) //toggle qr code
   const [deviceKey, setDeviceKey] = useState<string>("")
 
-  const [requireSignup, setRequireSignup] = useState<boolean>(true) // false
+  const [requireSignup, setRequireSignup] = useState<boolean>(false) // false
 
   useEffect(() => {
     const loadCookies = async () => {
@@ -19,6 +19,7 @@ function App() {
 
         setDeviceKey(key as string); // promise -> string
         setIsConnected(true) // todo: maybe change to when remote connects??
+        setDeviceName('device name') // todo: get name from backend
       }
       else {
         console.log("NO KEY")
@@ -67,6 +68,11 @@ function App() {
     setCookie(newKey)
     setIsConnected(true);
     // update background.js??
+    chrome.runtime.sendMessage({
+      type: "deviceKey",
+      value: newKey
+    })
+    
     if (requireSignup){
       setRequireSignup(false)
     }
