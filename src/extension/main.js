@@ -43,7 +43,7 @@ async function handleSubpage(){
 
 socket.on("control", (message) => {
     console.log(message)
-    console.log('grid handler')
+    console.log('click')
     console.log(ytHandler.GridHandler)
     switch (message.control) {
         case 'up':
