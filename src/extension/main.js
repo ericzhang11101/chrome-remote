@@ -5,9 +5,11 @@ const socket = io('ws://localhost:3000');
 
 import { toggleVideo, pressKey, toggleFullscreen, scrollToTop} from './utils/siteUtils'
 
+const key = {}
+
 const ytHandler = new YTHandler();
 handleSubpage()
-
+  
 async function handleSubpage(){
     const regex = /youtube.com\/(watch|feed|shorts|@|)/
 
@@ -118,16 +120,34 @@ async function handleLoading(callback){
 
 // }, false);
 
-console.log('chrome');
-console.log(chrome)
-console.log(chrome.runtime)
+
+// chrome.runtime.onMessage((message) => {
+//     console.log('message from background');
+//     console.log(message);
+//     if (message?.type === 'deviceKey'){
+//         console.log('update key!!')
+//         console.log(message.value)
+//     }
+// })
+
+// async function getKey(){
+//     chrome.runtime.sendMessage(
+//         "keyRequest",
+//         function (response) {
+//             console.log(response);
+//             key.value = response.value
+//         }
+//     );
+// }
 
 
-chrome.runtime.onMessage((message) => {
-    console.log('message from background');
-    console.log(message);
-    if (message?.type === 'deviceKey'){
-        console.log('update key!!')
-        console.log(message.value)
+// WORKS
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      console.log(sender.tab ?
+                  "from a content script:" + sender.tab.url :
+                  "from the extension");
+      if (request.greeting === "hello")
+        sendResponse({farewell: "goodbye"});
     }
-})
+  );

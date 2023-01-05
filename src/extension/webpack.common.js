@@ -5,7 +5,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: __dirname + '/build/bundle'
+    path: __dirname + '/../../build/bundle',
   },
   mode: 'production',
   resolve: {
