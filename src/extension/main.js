@@ -1,14 +1,37 @@
 import YTHandler from './sites/youtube'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { io } = require("socket.io-client");
-const socket = io('ws://localhost:3000');
-
 import { toggleVideo, pressKey, toggleFullscreen, scrollToTop} from './utils/siteUtils'
+const BASE_URL = "ws://localhost:3000"
 
-const key = {}
+const state = {
+    key: undefined,
+    isLoaded: false,
+    socket: io(BASE_URL)
+}
 
+handleKeyLoading()
 const ytHandler = new YTHandler();
 handleSubpage()
+
+// periodically check if key, once key is found, update state.
+async function handleKeyLoading(){
+    console.log('handleKeyLoading')
+    return new Promise((res) => {
+
+        const interval = setInterval(() => {
+            console.log('start of key interval')
+            if (state.key){
+                // const socketPath = BASE_URL + '/' + state.key
+                // console.log(socketPath)
+                
+                clearInterval(interval)
+                handleSocket(state.socket)
+                res(true)
+            }
+        }, 1000);
+    });
+}
   
 async function handleSubpage(){
     const regex = /youtube.com\/(watch|feed|shorts|@|)/
@@ -43,58 +66,67 @@ async function handleSubpage(){
     }
 }
 
-socket.on("control", (message) => {
-    console.log(message)
-    console.log('click')
-    console.log(ytHandler.GridHandler)
-    switch (message.control) {
-        case 'up':
-            ytHandler.GridHandler.moveUp();
-            break;
-        case 'down': 
-            ytHandler.GridHandler.moveDown();
-            break;
-        case 'left': 
-            ytHandler.GridHandler.moveLeft();
-            break;
-        case 'right': 
-            ytHandler.GridHandler.moveRight();
-            break;
-        case 'click': 
-            ytHandler.GridHandler.click();
-            handleLoading(handleSubpage)
-            break;
-        case 'togglePlay':
-            // eslint-disable-next-line no-case-declarations
-            const videoState = toggleVideo();
-            socket.emit("control-response", {
-                type: "video-status",
-                status: videoState
-            })
-            break;
-        case 'toggleFullscreen': 
-            toggleFullscreen();
-            break;
-        case 'toggleMute': 
-            pressKey('m');
-            break;
-        case 'toggleSidebar':
-            console.log(ytHandler.toggleSidebar)
-            handleLoading(ytHandler.toggleSidebar)
-            break;
-        case 'scrollToTop':
-            scrollToTop();
-            ytHandler.GridHandler.resetGrid();
-            break;
-        default: 
-            socket.emit("control-response", {
-                type: "error",
-                error: "unknown control " + message.movement
-            })
-    } 
-})
+function handleSocket(socket) {
+    const socketKey = "control-" + state.key
+    console.log('listening for ' + socketKey)
+    socket.on(socketKey, (message) => {
+        const {socket} = state;
+        console.log(message)
+        console.log('click')
+        console.log(ytHandler.GridHandler)
+        console.log('socket: ')
+        console.log(state.socketsocket)
+        switch (message.control) {
+            case 'up':
+                ytHandler.GridHandler.moveUp();
+                break;
+            case 'down': 
+                ytHandler.GridHandler.moveDown();
+                break;
+            case 'left': 
+                ytHandler.GridHandler.moveLeft();
+                break;
+            case 'right': 
+                ytHandler.GridHandler.moveRight();
+                break;
+            case 'click': 
+                ytHandler.GridHandler.click();
+                handleLoading(handleSubpage)
+                break;
+            case 'togglePlay':
+                // eslint-disable-next-line no-case-declarations
+                const videoState = toggleVideo();
+                socket.emit("control-response", {
+                    type: "video-status",
+                    status: videoState
+                })
+                break;
+            case 'toggleFullscreen': 
+                toggleFullscreen();
+                break;
+            case 'toggleMute': 
+                pressKey('m');
+                break;
+            case 'toggleSidebar':
+                console.log(ytHandler.toggleSidebar)
+                handleLoading(ytHandler.toggleSidebar)
+                break;
+            case 'scrollToTop':
+                scrollToTop();
+                ytHandler.GridHandler.resetGrid();
+                break;
+            default: 
+                socket.emit("control-response", {
+                    type: "error",
+                    error: "unknown control " + message.movement
+                })
+        } 
+    })
+}
+
 
 async function handleLoading(callback){
+    const {socket} = state
     socket.emit("load-status", {
         isLoaded: false
     })
@@ -120,34 +152,18 @@ async function handleLoading(callback){
 
 // }, false);
 
-
-// chrome.runtime.onMessage((message) => {
-//     console.log('message from background');
-//     console.log(message);
-//     if (message?.type === 'deviceKey'){
-//         console.log('update key!!')
-//         console.log(message.value)
-//     }
-// })
-
-// async function getKey(){
-//     chrome.runtime.sendMessage(
-//         "keyRequest",
-//         function (response) {
-//             console.log(response);
-//             key.value = response.value
-//         }
-//     );
-// }
-
-
 // WORKS
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       console.log(sender.tab ?
                   "from a content script:" + sender.tab.url :
                   "from the extension");
-      if (request.greeting === "hello")
-        sendResponse({farewell: "goodbye"});
+      console.log(request)
+
+      if (request.key){
+        state.key = request.key
+        sendResponse({success: true});
+        console.log('new key: ' + state.key)
+      }
     }
   );

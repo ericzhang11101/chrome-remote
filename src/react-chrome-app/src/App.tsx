@@ -72,7 +72,7 @@ function App() {
       type: "deviceKey",
       value: newKey
     })
-    
+
     if (requireSignup){
       setRequireSignup(false)
     }
@@ -95,6 +95,9 @@ function App() {
           deviceName={deviceName}
         />
       }
+      <button onClick={(e) => updateDeviceKey("TESTKEY123")}>
+        test
+      </button>
     </div>
   );
 }

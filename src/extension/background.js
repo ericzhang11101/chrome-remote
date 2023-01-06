@@ -19,9 +19,11 @@ chrome.runtime.onMessage.addListener(
 async function sendMessage(){
     console.log('sending pt 1')
     const message = {
-        type: 'message'
+        type: 'message',
+        key
     }
 
+    // todo: keep sending message until response
     chrome.tabs.query({active: true, currentWindow: true}, async function(tabs){
         console.log('sending message')
         // console.log(tabs)
@@ -29,8 +31,8 @@ async function sendMessage(){
         const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
         console.log('tab')
         console.log(tab)
-        const response = await chrome.tabs.sendMessage(tab.id, {greeting: "hello"});
-        console.log(response);
+        chrome.tabs.sendMessage(tab.id, message);
+        // const response = await chrome.tabs.sendMessage(tab.id, message);
     });
 }
 
