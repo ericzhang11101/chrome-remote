@@ -62,7 +62,8 @@ function App() {
 
       if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
         // dev code
-        resolve("TESTKEY123") 
+        resolve(undefined)
+        // resolve("TESTKEY123") 
       } else {
         // production code
         chrome.cookies.get({
@@ -90,25 +91,59 @@ function App() {
   }
 
   async function setCookie(value: string){
-    chrome.cookies.set({
-      "name": "id",
-      "url": "https://www.youtube.com/",
-      "value": value
-    });
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      // dev code
+    } else {
+      chrome.cookies.set({
+        "name": "id",
+        "url": "https://www.youtube.com/",
+        "value": value
+      });
+    }
   }
 
-  function updateDeviceKey(newKey: string){
+  async function updateDeviceKey(newKey: string){
     setDeviceKey(newKey)
     setCookie(newKey)
     setIsConnected(true);
     // update background.js??
+
     chrome.runtime.sendMessage({
       type: "deviceKey",
       value: newKey
     })
 
-    if (requireSignup){
-      setRequireSignup(false)
+  }
+
+  async function setDeviceValues(newName: string, newKey: string){
+    updateDeviceKey(newKey)
+    setDeviceName(newName)
+    // hit api with new key, name
+
+    const success = await fetch("http://localhost:3000/setNickname", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: newName,
+        key: newKey
+      }) 
+    })
+      .then((response) => response.json())
+      .then((data) => data.success)
+  
+    if (success){
+      if (requireSignup){
+        setRequireSignup(false)
+      }
+    }
+    else {
+      console.error('failed to create')
+      updateDeviceKey("")
+      setDeviceName("")
+      setIsConnected(false)
     }
   }
 
@@ -120,8 +155,7 @@ function App() {
         requireSignup
         ? 
         <Signup 
-          setDeviceName={setDeviceName}
-          setDeviceKey={updateDeviceKey}
+          setDeviceValues={setDeviceValues}
         />
         :
         <QrContainer 

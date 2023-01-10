@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 
-export default function Signup({setDeviceName, setDeviceKey}: any) {
+export default function Signup({setDeviceValues}: any) {
     const [deviceNameText, setDeviceNameText] = useState<string>('')
     function handleTextChange(e: any){
         setDeviceNameText(e.target.value);
@@ -17,8 +17,8 @@ export default function Signup({setDeviceName, setDeviceKey}: any) {
         console.log(deviceNameText.length > 0)
         const uuid = uuidv4();
 
-        setDeviceName(deviceNameText)
-        setDeviceKey(uuid)
+        setDeviceValues(deviceNameText, uuid)
+
     }
 
     return (
