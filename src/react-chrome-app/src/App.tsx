@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import QrContainer from './components/QrContainer';
 import Signup from './components/Signup';
+import dotenv from 'dotenv'
 
 function App() {
   const [isConnected, setIsConnected] = useState<boolean>(false)
   const [deviceName, setDeviceName] = useState<string>('') // ''
   const [shouldShowQrCode, setShouldShowQrCode] = useState<boolean>(false) //toggle qr code
   const [deviceKey, setDeviceKey] = useState<string>("")
+  const url = "http://localhost:3000"
 
   const [requireSignup, setRequireSignup] = useState<boolean>(false) // false
 
@@ -19,7 +21,28 @@ function App() {
 
         setDeviceKey(key as string); // promise -> string
         setIsConnected(true) // todo: maybe change to when remote connects??
-        setDeviceName('device name') // todo: get name from backend
+
+        const data = await fetch("http://localhost:3000/getNickname", {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            key: key
+          }) 
+        })
+          .then((response) => response.json())
+
+        console.log('device name: ')
+        console.log(data)
+
+        if (data.deviceName){
+          setDeviceName(data.deviceName)
+        } else {
+          // if no deviceName
+          setRequireSignup(true);
+        }
       }
       else {
         console.log("NO KEY")
@@ -35,10 +58,16 @@ function App() {
     const domain = "http://www.youtube.com"
     const name = "id"
 
-    const cookie = new Promise((resolve, reject) => {
+    const cookie = await new Promise((resolve, reject) => {
+
+      if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+        // dev code
+        resolve("TESTKEY123") 
+      } else {
+        // production code
         chrome.cookies.get({
-            url: domain,
-            name
+          url: domain,
+          name
         },
         function (cookie) {
             if (cookie) {
@@ -50,7 +79,12 @@ function App() {
                 reject();
             }
         })
+      }
+        
     });
+
+    console.log("key: " + cookie)
+    // get name from url
 
     return cookie
   }
