@@ -2,7 +2,8 @@ import YTHandler from './sites/youtube'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { io } = require("socket.io-client");
 import { toggleVideo, pressKey, toggleFullscreen, scrollToTop} from './utils/siteUtils'
-const BASE_URL = "ws://localhost:3000"
+// const BASE_URL = "ws://localhost:3000"
+const BASE_URL = "https://chrome-remote.herokuapp.com"
 
 const state = {
     key: undefined,

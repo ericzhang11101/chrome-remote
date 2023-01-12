@@ -8,7 +8,7 @@ function App() {
   const [deviceName, setDeviceName] = useState<string>('') // ''
   const [shouldShowQrCode, setShouldShowQrCode] = useState<boolean>(false) //toggle qr code
   const [deviceKey, setDeviceKey] = useState<string>("")
-  const url = "http://localhost:3000"
+  const url = "https://chrome-remote.herokuapp.com"
 
   const [requireSignup, setRequireSignup] = useState<boolean>(false) // false
 
@@ -22,7 +22,7 @@ function App() {
         setDeviceKey(key as string); // promise -> string
         setIsConnected(true) // todo: maybe change to when remote connects??
 
-        const data = await fetch("http://localhost:3000/getNickname", {
+        const data = await fetch(url + "/getNickname", {
           method: "POST",
           headers: {
             'Accept': 'application/json',
@@ -37,8 +37,14 @@ function App() {
         console.log('device name: ')
         console.log(data)
 
-        if (data.deviceName){
+        if (data.success && data.deviceName){
           setDeviceName(data.deviceName)
+          
+          chrome.runtime.sendMessage({
+            type: "deviceKey",
+            value: key
+          })
+
         } else {
           // if no deviceName
           setRequireSignup(true);
@@ -62,6 +68,7 @@ function App() {
 
       if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
         // dev code
+        console.log('dev code !!!')
         resolve(undefined)
         // resolve("TESTKEY123") 
       } else {
@@ -120,7 +127,7 @@ function App() {
     setDeviceName(newName)
     // hit api with new key, name
 
-    const success = await fetch("http://localhost:3000/setNickname", {
+    const success = await fetch(url + "/setNickname", {
       method: "POST",
       headers: {
         'Accept': 'application/json',

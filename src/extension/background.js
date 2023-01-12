@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener(
         sendMessage()
         if (request.type === "deviceKey"){
             key = request.value;
-            console.log('got key: + key')
+            console.log('got key: ' + key )
         }
         else if (request.type = "keyRequest"){
             sendResponse()
@@ -17,22 +17,37 @@ chrome.runtime.onMessage.addListener(
 );
 
 async function sendMessage(){
-    console.log('sending pt 1')
-    const message = {
-        type: 'message',
-        key
-    }
+    let count = 0 
 
-    // todo: keep sending message until response
-    chrome.tabs.query({active: true, currentWindow: true}, async function(tabs){
-        console.log('sending message')
-        // console.log(tabs)
-        // chrome.tabs.sendMessage(tabs[0].id, message);  
-        const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-        console.log('tab')
-        console.log(tab)
-        chrome.tabs.sendMessage(tab.id, message);
-        // const response = await chrome.tabs.sendMessage(tab.id, message);
-    });
+    console.log('send message')
+
+    const messageInterval = setInterval(() => {
+        console.log('sending pt ' + count)
+        count ++
+
+        const message = {
+            type: 'message',
+            key
+        }
+    
+        // todo: keep sending message until response
+        chrome.tabs.query({active: true, currentWindow: true}, async function(tabs){
+            console.log('sending message')
+            // console.log(tabs)
+            // chrome.tabs.sendMessage(tabs[0].id, message);  
+            const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+
+            if (tab.id !== undefined){
+                console.log('tab')
+                console.log(tab)
+                await chrome.tabs.sendMessage(tab.id, message);
+
+                clearInterval(messageInterval)
+            }
+            
+        });
+
+    }, 1000)
+
 }
 

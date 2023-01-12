@@ -2,7 +2,7 @@
 
 ### main extension
 
-#### Edit files in /src, run `webpack --config .\webpack.common.js`, when ready
+#### Edit files in /src/extension, run `webpack --config .\webpack.common.js`, when ready
 
 ### popup
 
