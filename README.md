@@ -13,3 +13,7 @@
 
 #### Edit files in /src/react-chrome-app, run `yarn build` and copy contents popup-build folder into /build
 #### Building directly into the folder will fuck everything up !!
+
+### server
+
+#### https://github.com/ericzhang11101/remote-server
